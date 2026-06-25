@@ -1,12 +1,48 @@
 # 💻 Web Finanças
 
-Frontend desenvolvido com Angular para gerenciamento de finanças pessoais, consumindo APIs REST desenvolvidas em Spring Boot.
-
-O projeto faz parte de um ecossistema de aplicações criado para demonstrar conhecimentos em desenvolvimento Full Stack, integração entre frontend e backend, autenticação com JWT e arquitetura baseada em APIs.
+![Angular](https://img.shields.io/badge/Angular-21-red?style=for-the-badge\&logo=angular)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge\&logo=typescript)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple?style=for-the-badge\&logo=bootstrap)
+![JWT](https://img.shields.io/badge/JWT-Autenticação-black?style=for-the-badge\&logo=jsonwebtokens)
+![REST API](https://img.shields.io/badge/REST%20API-Integration-blue?style=for-the-badge)
+![Build](https://img.shields.io/badge/build-em%20desenvolvimento-yellow?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)
 
 ---
 
-# 🚀 Tecnologias Utilizadas
+# 📌 Sobre o projeto
+
+O **Web Finanças** é uma aplicação frontend desenvolvida com **Angular** para gerenciamento financeiro pessoal, consumindo APIs REST desenvolvidas com **Java** e **Spring Boot**.
+
+O projeto faz parte de um ecossistema Full Stack criado para praticar autenticação com JWT, integração entre frontend e backend, consumo de APIs REST e construção de interfaces modernas utilizando Angular.
+
+---
+
+# 🚀 Funcionalidades
+
+### Implementadas
+
+* Tela de autenticação
+* Formulários reativos
+* Integração com API de autenticação
+* Consumo de APIs utilizando HttpClient
+* Interface responsiva com Bootstrap
+
+### Em desenvolvimento
+
+* Cadastro de usuários
+* Dashboard financeiro
+* Cadastro de receitas
+* Cadastro de despesas
+* Controle de saldo
+* Persistência do token JWT
+* Proteção de rotas
+* Controle de sessão
+* Integração completa com as APIs do sistema
+
+---
+
+# 🧱 Tecnologias Utilizadas
 
 * Angular
 * TypeScript
@@ -15,103 +51,90 @@ O projeto faz parte de um ecossistema de aplicações criado para demonstrar con
 * CSS3
 * Reactive Forms
 * HttpClient
+* JWT
+* REST API
 
 ---
 
-# ✨ Funcionalidades
-
-### Implementadas
-
-* Tela de autenticação
-* Formulário reativo
-* Consumo da API de autenticação
-* Integração com backend utilizando HttpClient
-* Interface responsiva com Bootstrap
-
-### Em desenvolvimento
-
-* Cadastro de usuários
-* Dashboard
-* Controle financeiro
-* Gerenciamento de receitas
-* Gerenciamento de despesas
-* Persistência do Token JWT
-* Controle de sessão
-* Proteção de rotas
-* Integração completa com as APIs do sistema
-
----
-
-# 🏗️ Arquitetura
+# 🏗️ Estrutura do Projeto
 
 ```text
-Web Finanças (Angular)
-        │
-        ▼
-Usuários API (Spring Boot)
-        │
-        ▼
-Autenticação JWT
-        │
-        ▼
-API de Pagamentos
+src/
+
+├── app
+│   ├── autenticar-usuario
+│   ├── criar-usuario
+│   ├── dashboard
+│   ├── app.routes.ts
+│   └── app.config.ts
+│
+├── assets
+└── environments
 ```
 
 ---
 
-# 📂 Estrutura do Projeto
+# 📊 Arquitetura
 
 ```text
-src/
-├── app/
-│   ├── autenticar-usuario/
-│   ├── criar-usuario/
-│   ├── dashboard/
-│   ├── app.routes.ts
-│   └── app.config.ts
-├── assets/
-└── environments/
+Usuário
+      │
+      ▼
+Web Finanças (Angular)
+      │
+      ▼
+HttpClient
+      │
+      ▼
+Usuários API (Spring Boot)
+      │
+      ▼
+JWT
+      │
+      ▼
+Demais APIs Financeiras
 ```
 
 ---
 
 # 🔗 Integração
 
-O frontend consome APIs REST para:
+O frontend realiza integração com APIs REST responsáveis por:
 
 * Autenticação de usuários
 * Cadastro de usuários
-* Consulta de informações do usuário autenticado
+* Consulta do usuário autenticado
 * Gerenciamento financeiro
 
 ---
 
-# ▶️ Como Executar
+# ⚙️ Como Executar
 
-## Pré-requisitos
-
-* Node.js
-* Angular CLI
-
-## Clonar o projeto
+## 1. Clonar o repositório
 
 ```bash
 git clone https://github.com/beatrizlima-tech/web-financas.git
 ```
 
-## Instalar dependências
+---
+
+## 2. Instalar as dependências
 
 ```bash
 npm install
 ```
 
-## Executar
+---
+
+## 3. Executar a aplicação
 
 ```bash
 ng serve
 ```
 
-A aplicação ficará disponível em:
+---
+
+## 4. Acessar
 
 ```text
 http://localhost:4200
@@ -119,18 +142,44 @@ http://localhost:4200
 
 ---
 
-# 📚 Objetivo
+# 📚 Conceitos Aplicados
 
-Este projeto foi desenvolvido para consolidar conhecimentos em Angular, integração com APIs REST, autenticação baseada em JWT e construção de interfaces modernas para aplicações web.
-
-O frontend faz parte de um ecossistema Full Stack desenvolvido em conjunto com APIs Spring Boot.
+* Componentização
+* SPA (Single Page Application)
+* Consumo de APIs REST
+* Reactive Forms
+* HttpClient
+* Integração Frontend e Backend
+* Autenticação JWT
+* Organização em módulos
+* Responsividade
+* Angular Routing
 
 ---
 
 # 🔗 Projetos Relacionados
 
-* Usuários API — Responsável pela autenticação e gerenciamento de usuários.
-* API Pagamentos — Responsável pelo gerenciamento das transações financeiras.
+* **API Usuários**
+
+  * Responsável pela autenticação e gerenciamento de usuários.
+
+* **API Pagamentos**
+
+  * Responsável pelo gerenciamento das transações financeiras.
+
+---
+
+# 📌 Melhorias Futuras
+
+* Implementar AuthGuard
+* Implementar JWT Interceptor
+* Criar dashboard financeiro completo
+* Implementar controle de receitas
+* Implementar controle de despesas
+* Adicionar gráficos financeiros
+* Melhorar experiência do usuário
+* Criar testes automatizados
+* Publicar aplicação em produção
 
 ---
 
@@ -138,5 +187,10 @@ O frontend faz parte de um ecossistema Full Stack desenvolvido em conjunto com A
 
 **Beatriz Lima de Oliveira**
 
-GitHub:
+🔗 GitHub
+
 https://github.com/beatrizlima-tech
+
+💼 LinkedIn
+
+https://www.linkedin.com/in/beatrizlima-tech
