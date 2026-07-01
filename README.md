@@ -3,7 +3,8 @@
 ![Angular](https://img.shields.io/badge/Angular-21-red?style=for-the-badge\&logo=angular)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge\&logo=typescript)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple?style=for-the-badge\&logo=bootstrap)
-![API REST](https://img.shields.io/badge/API-REST-green?style=for-the-badge)
+![JWT](https://img.shields.io/badge/JWT-Autenticação-black?style=for-the-badge\&logo=jsonwebtokens)
+![REST API](https://img.shields.io/badge/REST%20API-Integration-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)
 
 ---
@@ -12,20 +13,36 @@
 
 O **Web Finanças** é uma aplicação frontend desenvolvida com **Angular** para gerenciamento de finanças pessoais.
 
-A aplicação permite que o usuário realize seu cadastro, faça autenticação e tenha acesso às funcionalidades do sistema por meio de uma interface moderna, intuitiva e responsiva.
+A aplicação consome APIs REST desenvolvidas com **Java** e **Spring Boot**, permitindo que o usuário realize seu cadastro, autenticação e, futuramente, gerencie receitas, despesas e saldo financeiro em uma interface moderna, intuitiva e responsiva.
 
-O projeto consome uma API REST responsável pelo gerenciamento dos dados e autenticação dos usuários.
+O projeto foi desenvolvido para praticar conceitos de **Angular**, **Reactive Forms**, consumo de APIs REST, autenticação utilizando **JWT** e integração entre frontend e backend.
 
 ---
 
 # ✨ Funcionalidades
 
+## Implementadas
+
 * Cadastro de usuários
-* Autenticação (Login)
-* Validação de formulários
+* Autenticação de usuários (Login)
+* Validação de formulários com Reactive Forms
+* Validação de senha forte
+* Confirmação de senha
+* Aceite obrigatório dos Termos de Uso
+* Modal de Termos de Uso
 * Comunicação com API REST
-* Interface responsiva utilizando Bootstrap
-* Tratamento de respostas de sucesso e erro
+* Exibição de mensagens de sucesso e erro
+* Interface responsiva utilizando Bootstrap 5
+
+## Em desenvolvimento
+
+* Dashboard financeiro
+* Cadastro de receitas
+* Cadastro de despesas
+* Controle de saldo
+* Proteção de rotas
+* Persistência do token JWT
+* Controle de sessão
 
 ---
 
@@ -38,6 +55,46 @@ O projeto consome uma API REST responsável pelo gerenciamento dos dados e auten
 * Bootstrap 5
 * Reactive Forms
 * HttpClient
+* JWT
+* REST API
+
+---
+
+# 📂 Estrutura do projeto
+
+```text
+src
+├── app
+│   ├── autenticar-usuario
+│   ├── criar-usuario
+│   ├── dashboard
+│   ├── app.routes.ts
+│   └── app.config.ts
+├── assets
+└── environments
+```
+
+---
+
+# 📊 Arquitetura
+
+```text
+Usuário
+     │
+     ▼
+Web Finanças (Angular)
+     │
+ HttpClient
+     │
+     ▼
+API Usuários (Spring Boot)
+     │
+     ▼
+JWT
+     │
+     ▼
+APIs Financeiras
+```
 
 ---
 
@@ -67,42 +124,27 @@ Execute a aplicação:
 ng serve
 ```
 
-Abra o navegador em:
+Acesse:
 
-```
+```text
 http://localhost:4200
 ```
 
-> **Observação:** Para utilizar todas as funcionalidades, é necessário que a API do projeto esteja em execução.
+> **Importante:** Para utilizar todas as funcionalidades da aplicação, é necessário que a API de usuários esteja em execução.
 
 ---
 
-# 📂 Estrutura do projeto
+# 🚀 Próximas implementações
 
-```text
-src
- ├── app
- │    ├── autenticar-usuario
- │    ├── criar-usuario
- │    ├── dashboard
- │    ├── categorias
- │    ├── receitas
- │    ├── despesas
- │    └── ...
- ├── assets
- └── environments
-```
-
----
-
-# 🚀 Melhorias futuras
-
-* Recuperação de senha
-* Persistência do token JWT
-* Controle de sessão
 * Dashboard financeiro
-* Gráficos e relatórios
-* Controle de receitas e despesas
+* Cadastro de categorias
+* Cadastro de receitas
+* Cadastro de despesas
+* Relatórios financeiros
+* Gráficos e indicadores
+* AuthGuard
+* JWT Interceptor
+* Testes automatizados
 
 ---
 
