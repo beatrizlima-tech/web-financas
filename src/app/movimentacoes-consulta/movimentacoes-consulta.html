@@ -1,0 +1,541 @@
+<div class="min-vh-100 bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container-fluid">
+
+            <a class="navbar-brand fw-bold" href="/app/dashboard">
+                Controle Financeiro
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
+                aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Abrir menu">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div id="navbarPrincipal" class="collapse navbar-collapse">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/dashboard">
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <!-- Categorias -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Categorias
+                        </a>
+
+                        <ul class="dropdown-menu shadow">
+
+                            <li>
+                                <a class="dropdown-item" href="/app/categorias-cadastro">
+                                    Cadastrar categoria
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/app/categorias-consulta">
+                                    Consultar categorias
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <!-- Movimentações -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Movimentações
+                        </a>
+
+                        <ul class="dropdown-menu shadow">
+
+                            <li>
+                                <a class="dropdown-item" href="/app/movimentacoes-cadastro">
+                                    Cadastrar movimentação
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item active" href="/app/movimentacoes-consulta">
+                                    Consultar movimentações
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+                <!-- Usuário -->
+                <div class="d-flex align-items-center gap-3 text-white">
+
+                    <span class="d-none d-lg-inline">
+                        Olá, usuário
+                    </span>
+
+                    <button type="button" class="btn btn-outline-light btn-sm">
+                        Sair
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="container py-5">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+
+            <ol class="breadcrumb mb-3">
+
+                <li class="breadcrumb-item">
+                    <a href="/app/dashboard" class="text-decoration-none">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="breadcrumb-item">
+                    Movimentações
+                </li>
+
+                <li class="breadcrumb-item active" aria-current="page">
+                    Consulta
+                </li>
+
+            </ol>
+
+        </nav>
+
+        <!-- Cabeçalho -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+            <div>
+
+                <h1 class="h3 fw-bold text-dark mb-2">
+                    Consulta de movimentações
+                </h1>
+
+                <p class="text-secondary mb-0">
+                    Consulte as receitas e despesas cadastradas por período.
+                </p>
+
+            </div>
+
+            <a href="/app/movimentacoes-cadastro" class="btn btn-primary mt-3 mt-md-0">
+                Nova movimentação
+            </a>
+
+        </div>
+
+        <!-- Mensagem de erro -->
+        @if (mensagemErro()) {
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+            <strong>Erro!</strong>
+
+            {{ mensagemErro() }}
+
+            <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemErro.set('')">
+            </button>
+
+        </div>
+
+        }
+
+        <!-- Filtros -->
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header bg-white border-bottom py-3">
+
+                <h2 class="h5 fw-bold mb-1">
+                    Filtros da consulta
+                </h2>
+
+                <p class="text-secondary small mb-0">
+                    Informe o período desejado para consultar as movimentações.
+                </p>
+
+            </div>
+
+            <div class="card-body p-4">
+
+                <div class="row g-3 align-items-end">
+
+                    <!-- Data inicial -->
+                    <div class="col-12 col-md-4">
+
+                        <label for="dataInicio" class="form-label fw-semibold">
+                            Data inicial
+                        </label>
+
+                        <input type="date" id="dataInicio" name="dataInicio" class="form-control"
+                            [ngModel]="dataInicio()" (ngModelChange)="dataInicio.set($event)">
+
+                    </div>
+
+                    <!-- Data final -->
+                    <div class="col-12 col-md-4">
+
+                        <label for="dataFim" class="form-label fw-semibold">
+                            Data final
+                        </label>
+
+                        <input type="date" id="dataFim" name="dataFim" class="form-control" [ngModel]="dataFim()"
+                            (ngModelChange)="dataFim.set($event)">
+
+                    </div>
+
+                    <!-- Quantidade por página -->
+                    <div class="col-12 col-md-2">
+
+                        <label for="pageSize" class="form-label fw-semibold">
+                            Itens por página
+                        </label>
+
+                        <select id="pageSize" name="pageSize" class="form-select" [ngModel]="pageSize()"
+                            (ngModelChange)="alterarTamanhoPagina($event)">
+
+                            <option [ngValue]="5">5</option>
+                            <option [ngValue]="10">10</option>
+                            <option [ngValue]="25">25</option>
+                            <option [ngValue]="50">50</option>
+                            <option [ngValue]="100">100</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- Botão pesquisar -->
+                    <div class="col-12 col-md-2 d-grid">
+
+                        <button type="button" class="btn btn-primary" (click)="pesquisar()" [disabled]="carregando()">
+
+                            @if (carregando()) {
+
+                            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true">
+                            </span>
+
+                            Pesquisando...
+
+                            } @else {
+
+                            Pesquisar
+
+                            }
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Carregamento -->
+        @if (carregando()) {
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body py-5 text-center">
+
+                <div class="spinner-border text-primary mb-3" role="status">
+
+                    <span class="visually-hidden">
+                        Carregando movimentações...
+                    </span>
+
+                </div>
+
+                <p class="text-secondary mb-0">
+                    Consultando movimentações...
+                </p>
+
+            </div>
+
+        </div>
+
+        } @else {
+
+        <!-- Resultado da consulta -->
+        <div class="card border-0 shadow-sm">
+
+            <!-- Cabeçalho da tabela -->
+            <div class="card-header bg-white border-bottom py-3">
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
+                    <div>
+
+                        <h2 class="h5 fw-bold mb-1">
+                            Movimentações encontradas
+                        </h2>
+
+                        <p class="text-secondary small mb-0">
+                            Total de registros:
+                            <strong>{{ totalElements() }}</strong>
+                        </p>
+
+                    </div>
+
+                    <button type="button" class="btn btn-outline-primary btn-sm" (click)="atualizarConsulta()">
+                        Atualizar consulta
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Tabela -->
+            <div class="card-body p-0">
+
+                @if (movimentacoes().length > 0) {
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th class="px-4 py-3">
+                                    Nome
+                                </th>
+
+                                <th class="py-3">
+                                    Data
+                                </th>
+
+                                <th class="py-3">
+                                    Categoria
+                                </th>
+
+                                <th class="py-3">
+                                    Tipo
+                                </th>
+
+                                <th class="text-end py-3">
+                                    Valor
+                                </th>
+
+                                <th class="text-center px-4 py-3">
+                                    Ações
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for (movimentacao of movimentacoes(); track movimentacao.id) {
+
+                            <tr>
+
+                                <!-- Nome -->
+                                <td class="px-4">
+
+                                    <div class="fw-semibold text-dark">
+                                        {{ movimentacao.nome }}
+                                    </div>
+
+                                    <small class="text-secondary">
+                                        Código: {{ movimentacao.id }}
+                                    </small>
+
+                                </td>
+
+                                <!-- Data -->
+                                <td>
+                                    {{ movimentacao.data | date:'dd/MM/yyyy' }}
+                                </td>
+
+                                <!-- Categoria -->
+                                <td>
+
+                                    <span class="badge text-bg-secondary">
+                                        {{ movimentacao.categoria?.nome }}
+                                    </span>
+
+                                </td>
+
+                                <!-- Tipo -->
+                                <td>
+
+                                    @if (movimentacao.tipo === 'RECEITA') {
+
+                                    <span class="badge text-bg-success">
+                                        Receita
+                                    </span>
+
+                                    } @else {
+
+                                    <span class="badge text-bg-danger">
+                                        Despesa
+                                    </span>
+
+                                    }
+
+                                </td>
+
+                                <!-- Valor -->
+                                <td class="text-end fw-bold" [class.text-success]="movimentacao.tipo === 'RECEITA'"
+                                    [class.text-danger]="movimentacao.tipo === 'DESPESA'">
+
+                                    {{ movimentacao.valor | currency:'R$ ' }}
+
+                                </td>
+
+                                <!-- Ações -->
+                                <td class="text-center px-4">
+
+                                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            Alterar
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-danger btn-sm">
+                                            Excluir
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                } @else {
+
+                <!-- Nenhuma movimentação -->
+                <div class="text-center py-5 px-3">
+
+                    <h3 class="h5 fw-bold text-dark mb-2">
+                        Nenhuma movimentação encontrada
+                    </h3>
+
+                    <p class="text-secondary mb-4">
+                        Não existem movimentações cadastradas no período informado.
+                    </p>
+
+                    <a href="/app/movimentacoes-cadastro" class="btn btn-primary">
+                        Cadastrar movimentação
+                    </a>
+
+                </div>
+
+                }
+
+            </div>
+
+            <!-- Rodapé e paginação -->
+            @if (movimentacoes().length > 0) {
+
+            <div class="card-footer bg-white border-top py-3">
+
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3">
+
+                    <!-- Informações -->
+                    <div class="text-secondary small">
+
+                        Página
+                        <strong>{{ pageIndex() + 1 }}</strong>
+                        de
+                        <strong>{{ totalPages() }}</strong>
+
+                        <span class="mx-1">|</span>
+
+                        Exibindo
+                        <strong>{{ numberOfElements() }}</strong>
+                        de
+                        <strong>{{ totalElements() }}</strong>
+                        registro(s)
+
+                    </div>
+
+                    <!-- Paginação -->
+                    <nav aria-label="Paginação das movimentações">
+
+                        <ul class="pagination pagination-sm mb-0">
+
+                            <!-- Página anterior -->
+                            <li class="page-item" [class.disabled]="primeiraPagina()">
+
+                                <button type="button" class="page-link" (click)="paginaAnterior()"
+                                    [disabled]="primeiraPagina()">
+                                    Anterior
+                                </button>
+
+                            </li>
+
+                            <!-- Números das páginas -->
+                            @for (pagina of paginasDisponiveis(); track pagina) {
+
+                            <li class="page-item" [class.active]="pagina === pageIndex()">
+
+                                <button type="button" class="page-link" (click)="irParaPagina(pagina)">
+
+                                    {{ pagina + 1 }}
+
+                                </button>
+
+                            </li>
+
+                            }
+
+                            <!-- Próxima página -->
+                            <li class="page-item" [class.disabled]="ultimaPagina()">
+
+                                <button type="button" class="page-link" (click)="proximaPagina()"
+                                    [disabled]="ultimaPagina()">
+                                    Próxima
+                                </button>
+
+                            </li>
+
+                        </ul>
+
+                    </nav>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+        }
+
+    </main>
+
+</div>

@@ -1,1 +1,261 @@
-<p>dashboard works!</p>
+<div class="min-vh-100 bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container-fluid">
+
+            <a class="navbar-brand fw-bold" href="/app/dashboard">
+                Controle Financeiro
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
+                aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Abrir menu">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div id="navbarPrincipal" class="collapse navbar-collapse">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/app/dashboard">
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <!-- Categorias -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Categorias
+                        </a>
+
+                        <ul class="dropdown-menu shadow">
+
+                            <li>
+                                <a class="dropdown-item" href="/app/categorias-cadastro">
+                                    Cadastrar categoria
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/app/categorias-consulta">
+                                    Consultar categorias
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <!-- Movimentações -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Movimentações
+                        </a>
+
+                        <ul class="dropdown-menu shadow">
+
+                            <li>
+                                <a class="dropdown-item" href="/app/movimentacoes-cadastro">
+                                    Cadastrar movimentação
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/app/movimentacoes-consulta">
+                                    Consultar movimentações
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+                <div class="d-flex align-items-center gap-3 text-white">
+
+                    <span class="d-none d-lg-inline">
+                        Olá, usuário
+                    </span>
+
+                    <button type="button" class="btn btn-outline-light btn-sm">
+                        Sair
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="container py-5">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+
+            <ol class="breadcrumb mb-3">
+
+                <li class="breadcrumb-item active" aria-current="page">
+                    Dashboard
+                </li>
+
+                <li class="breadcrumb-item active" aria-current="page">
+                    Relatório financeiro
+                </li>
+
+            </ol>
+
+        </nav>
+
+        <!-- Cabeçalho -->
+        <div class="mb-4">
+
+            <h1 class="h3 fw-bold text-dark mb-2">
+                Gerar relatório financeiro
+            </h1>
+
+            <p class="text-secondary mb-0">
+                Informe o período que será analisado para receber o relatório no seu e-mail.
+            </p>
+
+        </div>
+
+        <!-- Mensagem de sucesso -->
+        @if (mensagemSucesso()) {
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+
+            {{ mensagemSucesso() }}
+
+            <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemSucesso.set('')">
+            </button>
+
+        </div>
+
+        }
+
+        <!-- Mensagem de erro -->
+        @if (mensagemErro()) {
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+            {{ mensagemErro() }}
+
+            <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemErro.set('')">
+            </button>
+
+        </div>
+
+        }
+
+        <!-- Card de geração do relatório -->
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-header bg-white border-bottom py-3">
+
+                <h2 class="h5 fw-bold mb-1">
+                    Período do relatório
+                </h2>
+
+                <p class="text-secondary small mb-0">
+                    Selecione a data inicial e a data final das movimentações.
+                </p>
+
+            </div>
+
+            <div class="card-body p-4">
+
+                <div class="row g-4">
+
+                    <!-- Data inicial -->
+                    <div class="col-12 col-md-6">
+
+                        <label for="dataInicio" class="form-label fw-semibold">
+
+                            Data inicial
+
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="date" id="dataInicio" name="dataInicio" class="form-control form-control-lg"
+                            [ngModel]="dataInicio()" (ngModelChange)="dataInicio.set($event)">
+
+                    </div>
+
+                    <!-- Data final -->
+                    <div class="col-12 col-md-6">
+
+                        <label for="dataFim" class="form-label fw-semibold">
+
+                            Data final
+
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+                        <input type="date" id="dataFim" name="dataFim" class="form-control form-control-lg"
+                            [ngModel]="dataFim()" (ngModelChange)="dataFim.set($event)">
+
+                    </div>
+
+                </div>
+
+                <!-- Informações -->
+                <div class="alert alert-light border mt-4 mb-4">
+
+                    <strong class="d-block text-dark mb-2">
+                        Como funciona?
+                    </strong>
+
+                    <p class="text-secondary mb-0">
+                        As movimentações do período selecionado serão enviadas para análise.
+                        Quando o processamento for concluído, o relatório será encaminhado
+                        para o seu e-mail.
+                    </p>
+
+                </div>
+
+                <!-- Botões -->
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+
+                    <a href="/app/movimentacoes-consulta" class="btn btn-outline-secondary px-4">
+                        Consultar movimentações
+                    </a>
+
+                    <button type="button" class="btn btn-primary px-4" (click)="gerarRelatorio()"
+                        [disabled]="gerandoRelatorio()">
+
+                        @if (gerandoRelatorio()) {
+
+                        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true">
+                        </span>
+
+                        Enviando solicitação...
+
+                        } @else {
+
+                        Gerar relatório
+
+                        }
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>

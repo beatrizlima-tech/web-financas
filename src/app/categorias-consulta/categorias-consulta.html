@@ -1,0 +1,341 @@
+<div class="min-vh-100 bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container-fluid">
+
+            <a class="navbar-brand fw-bold" href="/app/dashboard">
+                Controle Financeiro
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal"
+                aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Abrir menu">
+
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div id="navbarPrincipal" class="collapse navbar-collapse">
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <!-- Dashboard -->
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="/app/dashboard">
+                            Dashboard
+                        </a>
+
+                    </li>
+
+                    <!-- Categorias -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Categorias
+                        </a>
+
+                        <ul class="dropdown-menu shadow">
+
+                            <li>
+
+                                <a class="dropdown-item" href="/app/categorias-cadastro">
+                                    Cadastrar categoria
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item active" href="/app/categorias-consulta">
+                                    Consultar categorias
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    <!-- Movimentações -->
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Movimentações
+                        </a>
+
+                        <ul class="dropdown-menu shadow">
+
+                            <li>
+
+                                <a class="dropdown-item" href="/app/movimentacoes-cadastro">
+                                    Cadastrar movimentação
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item" href="/app/movimentacoes-consulta">
+                                    Consultar movimentações
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                </ul>
+
+                <!-- Usuário -->
+                <div class="d-flex align-items-center gap-3 text-white">
+
+                    <span class="d-none d-lg-inline">
+                        Olá, usuário
+                    </span>
+
+                    <button class="btn btn-outline-light btn-sm" type="button">
+                        Sair
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="container py-5">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+
+            <ol class="breadcrumb mb-3">
+
+                <li class="breadcrumb-item">
+
+                    <a href="/app/dashboard" class="text-decoration-none">
+                        Dashboard
+                    </a>
+
+                </li>
+
+                <li class="breadcrumb-item">
+                    Categorias
+                </li>
+
+                <li class="breadcrumb-item active" aria-current="page">
+                    Consulta
+                </li>
+
+            </ol>
+
+        </nav>
+
+        <!-- Cabeçalho -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+            <div>
+
+                <h1 class="h3 fw-bold text-dark mb-2">
+                    Consulta de categorias
+                </h1>
+
+                <p class="text-secondary mb-0">
+                    Visualize e gerencie as categorias cadastradas no sistema.
+                </p>
+
+            </div>
+
+            <a href="/app/categorias-cadastro" class="btn btn-primary mt-3 mt-md-0">
+                Nova categoria
+            </a>
+
+        </div>
+
+        <!-- Mensagem de erro -->
+        @if (mensagemErro()) {
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+            <strong>Erro!</strong>
+
+            {{ mensagemErro() }}
+
+            <button type="button" class="btn-close" aria-label="Fechar" (click)="mensagemErro.set('')">
+            </button>
+
+        </div>
+
+        }
+
+        <!-- Carregamento -->
+        @if (carregando()) {
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body py-5 text-center">
+
+                <div class="spinner-border text-primary mb-3" role="status">
+
+                    <span class="visually-hidden">
+                        Carregando...
+                    </span>
+
+                </div>
+
+                <p class="text-secondary mb-0">
+                    Consultando categorias...
+                </p>
+
+            </div>
+
+        </div>
+
+        } @else {
+
+        <!-- Card da consulta -->
+        <div class="card border-0 shadow-sm">
+
+            <!-- Cabeçalho do card -->
+            <div class="card-header bg-white border-bottom py-3">
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+
+                    <div>
+
+                        <h2 class="h5 fw-bold mb-1">
+                            Categorias cadastradas
+                        </h2>
+
+                        <p class="text-secondary small mb-0">
+                            Total de categorias encontradas:
+                            <strong>{{ categorias().length }}</strong>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Corpo do card -->
+            <div class="card-body p-0">
+
+                @if (categorias().length > 0) {
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th class="py-3">
+                                    Nome da categoria
+                                </th>
+
+                                <th class="text-center py-3">
+                                    Ações
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @for (categoria of categorias(); track categoria.id) {
+
+                            <tr>
+
+                                <td>
+
+                                    <div class="fw-semibold text-dark">
+                                        {{ categoria.nome }}
+                                    </div>
+
+                                    <small class="text-secondary">
+                                        Categoria financeira
+                                    </small>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            Alterar
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-danger btn-sm">
+                                            Excluir
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                } @else {
+
+                <!-- Nenhuma categoria encontrada -->
+                <div class="text-center py-5 px-3">
+
+                    <h3 class="h5 fw-bold text-dark mb-2">
+                        Nenhuma categoria encontrada
+                    </h3>
+
+                    <p class="text-secondary mb-4">
+                        Ainda não existem categorias cadastradas no sistema.
+                    </p>
+
+                    <a href="/app/categorias-cadastro" class="btn btn-primary">
+                        Cadastrar primeira categoria
+                    </a>
+
+                </div>
+
+                }
+
+            </div>
+
+            <!-- Rodapé do card -->
+            @if (categorias().length > 0) {
+
+            <div class="card-footer bg-white border-top py-3">
+
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+
+                    <span class="text-secondary small">
+                        Exibindo {{ categorias().length }} categoria(s).
+                    </span>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+        }
+
+    </main>
+
+</div>

@@ -1,0 +1,365 @@
+<div class="min-vh-100 bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <div class="container-fluid">
+
+      <a class="navbar-brand fw-bold" href="/app/dashboard">
+        Controle Financeiro
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarPrincipal"
+        aria-controls="navbarPrincipal"
+        aria-expanded="false"
+        aria-label="Abrir menu">
+
+        <span class="navbar-toggler-icon"></span>
+
+      </button>
+
+      <div
+        id="navbarPrincipal"
+        class="collapse navbar-collapse">
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <!-- Dashboard -->
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="/app/dashboard">
+              Dashboard
+            </a>
+
+          </li>
+
+          <!-- Categorias -->
+          <li class="nav-item dropdown">
+
+            <a
+              class="nav-link dropdown-toggle active"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Categorias
+            </a>
+
+            <ul class="dropdown-menu shadow">
+
+              <li>
+
+                <a
+                  class="dropdown-item active"
+                  href="/app/categorias-cadastro">
+                  Cadastrar categoria
+                </a>
+
+              </li>
+
+              <li>
+
+                <a
+                  class="dropdown-item"
+                  href="/app/categorias-consulta">
+                  Consultar categorias
+                </a>
+
+              </li>
+
+            </ul>
+
+          </li>
+
+          <!-- Movimentações -->
+          <li class="nav-item dropdown">
+
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Movimentações
+            </a>
+
+            <ul class="dropdown-menu shadow">
+
+              <li>
+
+                <a
+                  class="dropdown-item"
+                  href="/app/movimentacoes-cadastro">
+                  Cadastrar movimentação
+                </a>
+
+              </li>
+
+              <li>
+
+                <a
+                  class="dropdown-item"
+                  href="/app/movimentacoes-consulta">
+                  Consultar movimentações
+                </a>
+
+              </li>
+
+            </ul>
+
+          </li>
+
+        </ul>
+
+        <!-- Usuário -->
+        <div class="d-flex align-items-center gap-3 text-white">
+
+          <span class="d-none d-lg-inline">
+            Olá, usuário
+          </span>
+
+          <button
+            class="btn btn-outline-light btn-sm"
+            type="button">
+            Sair
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <main class="container py-5">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+
+      <ol class="breadcrumb mb-3">
+
+        <li class="breadcrumb-item">
+
+          <a
+            href="/app/dashboard"
+            class="text-decoration-none">
+            Dashboard
+          </a>
+
+        </li>
+
+        <li class="breadcrumb-item">
+          Categorias
+        </li>
+
+        <li
+          class="breadcrumb-item active"
+          aria-current="page">
+          Cadastro
+        </li>
+
+      </ol>
+
+    </nav>
+
+    <!-- Cabeçalho -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+      <div>
+
+        <h1 class="h3 fw-bold text-dark mb-2">
+          Cadastro de categoria
+        </h1>
+
+        <p class="text-secondary mb-0">
+          Preencha o formulário para adicionar uma nova categoria financeira.
+        </p>
+
+      </div>
+
+      <a
+        href="/app/categorias-consulta"
+        class="btn btn-outline-primary mt-3 mt-md-0">
+        Consultar categorias
+      </a>
+
+    </div>
+
+    <!-- Mensagem de sucesso -->
+    @if (mensagemSucesso()) {
+
+      <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert">
+
+        <strong>Sucesso!</strong>
+
+        {{ mensagemSucesso() }}
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Fechar"
+          (click)="mensagemSucesso.set('')">
+        </button>
+
+      </div>
+
+    }
+
+    <!-- Mensagem de erro -->
+    @if (mensagemErro()) {
+
+      <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+
+        <strong>Erro!</strong>
+
+        {{ mensagemErro() }}
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Fechar"
+          (click)="mensagemErro.set('')">
+        </button>
+
+      </div>
+
+    }
+
+    <!-- Card do formulário -->
+    <div class="card border-0 shadow-sm">
+
+      <!-- Cabeçalho do card -->
+      <div class="card-header bg-white border-bottom py-3">
+
+        <h2 class="h5 fw-bold mb-1">
+          Dados da categoria
+        </h2>
+
+        <p class="text-secondary small mb-0">
+          Informe o nome que será utilizado para identificar a categoria.
+        </p>
+
+      </div>
+
+      <!-- Corpo do card -->
+      <div class="card-body p-4">
+
+        <form
+          [formGroup]="formulario"
+          (ngSubmit)="cadastrar()">
+
+          <!-- Campo nome -->
+          <div class="mb-4">
+
+            <label
+              for="nome"
+              class="form-label fw-semibold">
+
+              Nome da categoria
+
+              <span class="text-danger">
+                *
+              </span>
+
+            </label>
+
+            <input
+              type="text"
+              id="nome"
+              formControlName="nome"
+              class="form-control form-control-lg"
+              [class.is-invalid]="
+                formulario.controls.nome.invalid &&
+                formulario.controls.nome.touched
+              "
+              [class.is-valid]="
+                formulario.controls.nome.valid &&
+                formulario.controls.nome.touched
+              "
+              placeholder="Exemplo: Alimentação"
+              maxlength="100"
+              autocomplete="off">
+
+            <div class="form-text">
+              Digite um nome claro para facilitar a organização das movimentações.
+            </div>
+
+            @if (
+              formulario.controls.nome.invalid &&
+              formulario.controls.nome.touched
+            ) {
+
+              <div class="invalid-feedback">
+
+                @if (formulario.controls.nome.errors?.['required']) {
+
+                  O nome da categoria é obrigatório.
+
+                }
+
+              </div>
+
+            }
+
+          </div>
+
+          <!-- Botões -->
+          <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
+
+            <a
+              href="/app/categorias-consulta"
+              class="btn btn-outline-secondary px-4">
+              Voltar
+            </a>
+
+            <button
+              type="reset"
+              class="btn btn-outline-danger px-4"
+              (click)="mensagemSucesso.set(''); mensagemErro.set('')">
+              Limpar
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="formulario.invalid">
+
+              Cadastrar categoria
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- Dica -->
+    <div class="alert alert-light border mt-4 mb-0">
+
+      <strong class="d-block text-dark mb-1">
+        Dica de organização
+      </strong>
+
+      <span class="text-secondary">
+        Utilize nomes como Alimentação, Moradia, Transporte,
+        Saúde, Educação e Lazer.
+      </span>
+
+    </div>
+
+  </main>
+
+</div>

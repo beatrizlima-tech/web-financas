@@ -1,0 +1,577 @@
+<div class="min-vh-100 bg-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+    <div class="container-fluid">
+
+      <a class="navbar-brand fw-bold" href="/app/dashboard">
+        Controle Financeiro
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarPrincipal"
+        aria-controls="navbarPrincipal"
+        aria-expanded="false"
+        aria-label="Abrir menu">
+
+        <span class="navbar-toggler-icon"></span>
+
+      </button>
+
+      <div
+        id="navbarPrincipal"
+        class="collapse navbar-collapse">
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <!-- Dashboard -->
+          <li class="nav-item">
+
+            <a
+              class="nav-link"
+              href="/app/dashboard">
+              Dashboard
+            </a>
+
+          </li>
+
+          <!-- Categorias -->
+          <li class="nav-item dropdown">
+
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Categorias
+            </a>
+
+            <ul class="dropdown-menu shadow">
+
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="/app/categorias-cadastro">
+                  Cadastrar categoria
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="/app/categorias-consulta">
+                  Consultar categorias
+                </a>
+              </li>
+
+            </ul>
+
+          </li>
+
+          <!-- Movimentações -->
+          <li class="nav-item dropdown">
+
+            <a
+              class="nav-link dropdown-toggle active"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Movimentações
+            </a>
+
+            <ul class="dropdown-menu shadow">
+
+              <li>
+                <a
+                  class="dropdown-item active"
+                  href="/app/movimentacoes-cadastro">
+                  Cadastrar movimentação
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="/app/movimentacoes-consulta">
+                  Consultar movimentações
+                </a>
+              </li>
+
+            </ul>
+
+          </li>
+
+        </ul>
+
+        <!-- Usuário -->
+        <div class="d-flex align-items-center gap-3 text-white">
+
+          <span class="d-none d-lg-inline">
+            Olá, usuário
+          </span>
+
+          <button
+            class="btn btn-outline-light btn-sm"
+            type="button">
+            Sair
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <main class="container py-5">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+
+      <ol class="breadcrumb mb-3">
+
+        <li class="breadcrumb-item">
+
+          <a
+            href="/app/dashboard"
+            class="text-decoration-none">
+            Dashboard
+          </a>
+
+        </li>
+
+        <li class="breadcrumb-item">
+          Movimentações
+        </li>
+
+        <li
+          class="breadcrumb-item active"
+          aria-current="page">
+          Cadastro
+        </li>
+
+      </ol>
+
+    </nav>
+
+    <!-- Cabeçalho -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+      <div>
+
+        <h1 class="h3 fw-bold text-dark mb-2">
+          Cadastro de movimentação
+        </h1>
+
+        <p class="text-secondary mb-0">
+          Preencha os dados para registrar uma nova receita ou despesa.
+        </p>
+
+      </div>
+
+      <a
+        href="/app/movimentacoes-consulta"
+        class="btn btn-outline-primary mt-3 mt-md-0">
+        Consultar movimentações
+      </a>
+
+    </div>
+
+    <!-- Mensagem de sucesso -->
+    @if (mensagemSucesso()) {
+
+      <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert">
+
+        <strong>Sucesso!</strong>
+
+        {{ mensagemSucesso() }}
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Fechar"
+          (click)="mensagemSucesso.set('')">
+        </button>
+
+      </div>
+
+    }
+
+    <!-- Mensagem de erro -->
+    @if (mensagemErro()) {
+
+      <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert">
+
+        <strong>Erro!</strong>
+
+        {{ mensagemErro() }}
+
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Fechar"
+          (click)="mensagemErro.set('')">
+        </button>
+
+      </div>
+
+    }
+
+    <!-- Card do formulário -->
+    <div class="card border-0 shadow-sm">
+
+      <!-- Cabeçalho do card -->
+      <div class="card-header bg-white border-bottom py-3">
+
+        <h2 class="h5 fw-bold mb-1">
+          Dados da movimentação
+        </h2>
+
+        <p class="text-secondary small mb-0">
+          Informe a descrição, data, valor, tipo e categoria da movimentação.
+        </p>
+
+      </div>
+
+      <!-- Corpo do card -->
+      <div class="card-body p-4">
+
+        <form
+          [formGroup]="formulario"
+          (ngSubmit)="cadastrar()">
+
+          <div class="row g-4">
+
+            <!-- Nome -->
+            <div class="col-12">
+
+              <label
+                for="nome"
+                class="form-label fw-semibold">
+
+                Nome da movimentação
+
+                <span class="text-danger">*</span>
+
+              </label>
+
+              <input
+                type="text"
+                id="nome"
+                class="form-control form-control-lg"
+                formControlName="nome"
+                placeholder="Exemplo: Pagamento do aluguel"
+                autocomplete="off"
+                [class.is-invalid]="
+                  formulario.controls.nome.invalid &&
+                  formulario.controls.nome.touched
+                "
+                [class.is-valid]="
+                  formulario.controls.nome.valid &&
+                  formulario.controls.nome.touched
+                ">
+
+              @if (
+                formulario.controls.nome.invalid &&
+                formulario.controls.nome.touched
+              ) {
+
+                <div class="invalid-feedback">
+                  O nome da movimentação é obrigatório.
+                </div>
+
+              }
+
+            </div>
+
+            <!-- Data -->
+            <div class="col-12 col-md-6">
+
+              <label
+                for="data"
+                class="form-label fw-semibold">
+
+                Data da movimentação
+
+                <span class="text-danger">*</span>
+
+              </label>
+
+              <input
+                type="date"
+                id="data"
+                class="form-control form-control-lg"
+                formControlName="data"
+                [class.is-invalid]="
+                  formulario.controls.data.invalid &&
+                  formulario.controls.data.touched
+                "
+                [class.is-valid]="
+                  formulario.controls.data.valid &&
+                  formulario.controls.data.touched
+                ">
+
+              @if (
+                formulario.controls.data.invalid &&
+                formulario.controls.data.touched
+              ) {
+
+                <div class="invalid-feedback">
+                  A data da movimentação é obrigatória.
+                </div>
+
+              }
+
+            </div>
+
+            <!-- Valor -->
+            <div class="col-12 col-md-6">
+
+              <label
+                for="valor"
+                class="form-label fw-semibold">
+
+                Valor
+
+                <span class="text-danger">*</span>
+
+              </label>
+
+              <div class="input-group input-group-lg">
+
+                <span class="input-group-text">
+                  R$
+                </span>
+
+                <input
+                  type="number"
+                  id="valor"
+                  class="form-control"
+                  formControlName="valor"
+                  placeholder="0,00"
+                  min="0.01"
+                  step="0.01"
+                  [class.is-invalid]="
+                    formulario.controls.valor.invalid &&
+                    formulario.controls.valor.touched
+                  "
+                  [class.is-valid]="
+                    formulario.controls.valor.valid &&
+                    formulario.controls.valor.touched
+                  ">
+
+                @if (
+                  formulario.controls.valor.invalid &&
+                  formulario.controls.valor.touched
+                ) {
+
+                  <div class="invalid-feedback">
+                    Informe um valor maior que zero.
+                  </div>
+
+                }
+
+              </div>
+
+            </div>
+
+            <!-- Tipo -->
+            <div class="col-12 col-md-6">
+
+              <label
+                for="tipo"
+                class="form-label fw-semibold">
+
+                Tipo da movimentação
+
+                <span class="text-danger">*</span>
+
+              </label>
+
+              <select
+                id="tipo"
+                class="form-select form-select-lg"
+                formControlName="tipo"
+                [class.is-invalid]="
+                  formulario.controls.tipo.invalid &&
+                  formulario.controls.tipo.touched
+                "
+                [class.is-valid]="
+                  formulario.controls.tipo.valid &&
+                  formulario.controls.tipo.touched
+                ">
+
+                <option value="">
+                  Selecione o tipo
+                </option>
+
+                <option value="RECEITA">
+                  Receita
+                </option>
+
+                <option value="DESPESA">
+                  Despesa
+                </option>
+
+              </select>
+
+              @if (
+                formulario.controls.tipo.invalid &&
+                formulario.controls.tipo.touched
+              ) {
+
+                <div class="invalid-feedback">
+                  Selecione o tipo da movimentação.
+                </div>
+
+              }
+
+            </div>
+
+            <!-- Categoria -->
+            <div class="col-12 col-md-6">
+
+              <label
+                for="categoriaId"
+                class="form-label fw-semibold">
+
+                Categoria
+
+                <span class="text-danger">*</span>
+
+              </label>
+
+              <select
+                id="categoriaId"
+                class="form-select form-select-lg"
+                formControlName="categoriaId"
+                [class.is-invalid]="
+                  formulario.controls.categoriaId.invalid &&
+                  formulario.controls.categoriaId.touched
+                "
+                [class.is-valid]="
+                  formulario.controls.categoriaId.valid &&
+                  formulario.controls.categoriaId.touched
+                ">
+
+                <option value="">
+                  Selecione uma categoria
+                </option>
+
+                @for (categoria of categorias(); track categoria.id) {
+
+                  <option [value]="categoria.id">
+                    {{ categoria.nome }}
+                  </option>
+
+                }
+
+              </select>
+
+              @if (carregandoCategorias()) {
+
+                <div class="form-text text-primary">
+                  Carregando categorias...
+                </div>
+
+              } @else if (categorias().length === 0) {
+
+                <div class="form-text text-danger">
+                  Nenhuma categoria disponível.
+                </div>
+
+              } @else {
+
+                <div class="form-text">
+                  Selecione a categoria relacionada à movimentação.
+                </div>
+
+              }
+
+              @if (
+                formulario.controls.categoriaId.invalid &&
+                formulario.controls.categoriaId.touched
+              ) {
+
+                <div class="invalid-feedback">
+                  Selecione uma categoria.
+                </div>
+
+              }
+
+            </div>
+
+          </div>
+
+          <!-- Botões -->
+          <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+
+            <a
+              href="/app/movimentacoes-consulta"
+              class="btn btn-outline-secondary px-4">
+              Voltar
+            </a>
+
+            <button
+              type="reset"
+              class="btn btn-outline-danger px-4"
+              (click)="mensagemSucesso.set(''); mensagemErro.set('')">
+              Limpar
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="formulario.invalid || enviando()">
+
+              @if (enviando()) {
+
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  aria-hidden="true">
+                </span>
+
+                Cadastrando...
+
+              } @else {
+
+                Cadastrar movimentação
+
+              }
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <!-- Dica -->
+    <div class="alert alert-light border mt-4 mb-0">
+
+      <strong class="d-block text-dark mb-1">
+        Dica
+      </strong>
+
+      <span class="text-secondary">
+        Cadastre receitas para valores recebidos e despesas para pagamentos e gastos realizados.
+      </span>
+
+    </div>
+
+  </main>
+
+</div>
