@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -83,7 +84,7 @@ export class Dashboard implements OnInit {
 
     this.http
       .post(
-        'http://localhost:8083/api/v1/movimentacoes/gerar-relatorio',
+        `${environment.apiFinancasUrl}/api/v1/movimentacoes/gerar-relatorio`,
         null,
         {
           params: parametros,

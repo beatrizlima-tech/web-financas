@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { AutenticarUsuario } from './autenticar-usuario/autenticar-usuario';
 import { CriarUsuario } from './criar-usuario/criar-usuario';
 import { Dashboard } from './dashboard/dashboard';
@@ -8,46 +9,55 @@ import { CategoriasConsulta } from './categorias-consulta/categorias-consulta';
 import { MovimentacoesCadastro } from './movimentacoes-cadastro/movimentacoes-cadastro';
 import { MovimentacoesConsulta } from './movimentacoes-consulta/movimentacoes-consulta';
 import { MovimentacoesEdicao } from './movimentacoes-edicao/movimentacoes-edicao';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
-    {
-        path: 'pages/autenticar', //rota de navegação
-        component: AutenticarUsuario //componente renderizado
-    },
-    {
-        path: 'pages/criar-usuario', //rota de navegação
-        component: CriarUsuario //componente renderizado
-    },
-    {
-        path: 'app/dashboard', //rota de navegação
-        component: Dashboard //componente renderizado
-    },
-    {
-        path: 'app/categorias-cadastro', //rota de navegação
-        component: CategoriasCadastro //componente renderizado
-    },
-    {
-        path: 'app/categorias-consulta', //rota de navegação
-        component: CategoriasConsulta //componente renderizado
-    },
-    {
-        path: 'app/categorias-edicao', //rota de navegação
-        component: CategoriasEdicao //componente renderizado
-    },
-    {
-        path: 'app/movimentacoes-cadastro', //rota de navegação
-        component: MovimentacoesCadastro //componente renderizado
-    },
-    {
-        path: 'app/movimentacoes-consulta', //rota de navegação
-        component: MovimentacoesConsulta //componente renderizado
-    },
-    {
-        path: 'app/movimentacoes-edicao', //rota de navegação
-        component: MovimentacoesEdicao //componente renderizado
-    },
-    {
-        path: '', pathMatch: 'full', //rota raiz
-        redirectTo: '/pages/autenticar' //redurecionamento
-    }
+  {
+    path: 'pages/autenticar',
+    component: AutenticarUsuario
+  },
+  {
+    path: 'pages/criar-usuario',
+    component: CriarUsuario
+  },
+  {
+    path: 'app/dashboard',
+    component: Dashboard,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'app/categorias-cadastro',
+    component: CategoriasCadastro,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'app/categorias-consulta',
+    component: CategoriasConsulta,
+    canActivate: [authGuard]
+  },
+  {
+  path: 'app/categorias-edicao/:id',
+  component: CategoriasEdicao,
+  canActivate: [authGuard]
+  },
+  {
+    path: 'app/movimentacoes-cadastro',
+    component: MovimentacoesCadastro,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'app/movimentacoes-consulta',
+    component: MovimentacoesConsulta,
+    canActivate: [authGuard]
+  },
+  {
+  path: 'app/movimentacoes-edicao/:id',
+  component: MovimentacoesEdicao,
+  canActivate: [authGuard]
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'pages/autenticar'
+  }
 ];

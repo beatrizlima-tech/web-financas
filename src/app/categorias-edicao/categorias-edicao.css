@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+main {
+  max-width: 960px;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.form-control-lg {
+  min-height: 3.5rem;
+}
+
+.spinner-border {
+  flex-shrink: 0;
+}
+
+@media (max-width: 575.98px) {
+  .card-body {
+    padding: 1.25rem !important;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

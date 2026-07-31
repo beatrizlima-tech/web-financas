@@ -1,22 +1,47 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environments/environment';
+import { RouterLink } from '@angular/router';
+
+interface MovimentacaoConsultaResponse {
+  id: string;
+  nome: string;
+  data: string;
+  valor: number;
+  tipo: string;
+
+  categoria: {
+    id: string;
+    nome: string;
+  };
+}
 
 @Component({
   selector: 'app-movimentacoes-consulta',
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './movimentacoes-consulta.html',
   styleUrl: './movimentacoes-consulta.css',
 })
 export class MovimentacoesConsulta implements OnInit {
 
-  http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  movimentacoes = signal<any[]>([]);
+  movimentacoes = signal<MovimentacaoConsultaResponse[]>([]);
+
+  movimentacaoParaExcluir =
+    signal<MovimentacaoConsultaResponse | null>(null);
+
+  mensagemErro = signal<string>('');
+  mensagemSucesso = signal<string>('');
+
+  carregando = signal<boolean>(false);
+  excluindo = signal<boolean>(false);
 
   dataInicio = signal<string>('');
   dataFim = signal<string>('');
@@ -30,9 +55,6 @@ export class MovimentacoesConsulta implements OnInit {
 
   primeiraPagina = signal<boolean>(true);
   ultimaPagina = signal<boolean>(true);
-
-  carregando = signal<boolean>(false);
-  mensagemErro = signal<string>('');
 
   ngOnInit(): void {
     this.definirPeriodoAtual();
@@ -95,7 +117,7 @@ export class MovimentacoesConsulta implements OnInit {
 
     this.http
       .get<any>(
-        'http://localhost:8083/api/v1/movimentacoes/consultar',
+        `${environment.apiFinancasUrl}/api/v1/movimentacoes/consultar`,
         {
           params: parametros
         }
@@ -223,4 +245,94 @@ export class MovimentacoesConsulta implements OnInit {
         (_, indice) => inicio + indice
       );
   }
+
+solicitarExclusao(
+  movimentacao: MovimentacaoConsultaResponse
+): void {
+  this.mensagemSucesso.set('');
+  this.mensagemErro.set('');
+  this.movimentacaoParaExcluir.set(movimentacao);
+}
+
+cancelarExclusao(): void {
+  if (this.excluindo()) {
+    return;
+  }
+
+  this.movimentacaoParaExcluir.set(null);
+}
+
+confirmarExclusao(): void {
+  const movimentacao = this.movimentacaoParaExcluir();
+
+  if (!movimentacao) {
+    return;
+  }
+
+  this.excluindo.set(true);
+  this.mensagemSucesso.set('');
+  this.mensagemErro.set('');
+
+  this.http
+    .delete(
+      `${environment.apiFinancasUrl}/api/v1/movimentacoes/excluir/${movimentacao.id}`,
+      {
+        responseType: 'text'
+      }
+    )
+    .subscribe({
+      next: () => {
+        const paginaAposExclusao =
+          this.numberOfElements() === 1 &&
+          this.pageIndex() > 0
+            ? this.pageIndex() - 1
+            : this.pageIndex();
+
+        this.excluindo.set(false);
+        this.movimentacaoParaExcluir.set(null);
+
+        this.mensagemSucesso.set(
+          `Movimentação "${movimentacao.nome}" excluída com sucesso!`
+        );
+
+        this.consultarMovimentacoes(paginaAposExclusao);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.excluindo.set(false);
+        this.movimentacaoParaExcluir.set(null);
+
+        this.mensagemErro.set(
+          this.obterMensagemErro(
+            error,
+            'Não foi possível excluir a movimentação.'
+          )
+        );
+      }
+    });
+}
+
+private obterMensagemErro(
+  error: HttpErrorResponse,
+  mensagemPadrao: string
+): string {
+  if (typeof error.error === 'string') {
+    try {
+      const problema = JSON.parse(error.error) as {
+        detail?: string;
+        message?: string;
+      };
+
+      return problema.detail
+        || problema.message
+        || mensagemPadrao;
+    } catch {
+      return error.error || mensagemPadrao;
+    }
+  }
+
+  return error.error?.detail
+    || error.error?.message
+    || mensagemPadrao;
+  }
+
 }

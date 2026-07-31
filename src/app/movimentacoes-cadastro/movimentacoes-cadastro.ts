@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
 import {
   FormControl,
   FormGroup,
@@ -61,9 +62,7 @@ export class MovimentacoesCadastro implements OnInit {
     this.mensagemErro.set('');
 
     this.http
-      .get<any[]>(
-        'http://localhost:8083/api/v1/categorias/consultar'
-      )
+      .get<any[]>(`${environment.apiFinancasUrl}/api/v1/categorias/consultar`)
       .subscribe({
         next: (dados) => {
           this.categorias.set(dados);
@@ -95,10 +94,7 @@ export class MovimentacoesCadastro implements OnInit {
     this.mensagemErro.set('');
 
     this.http
-      .post(
-        'http://localhost:8083/api/v1/movimentacoes/criar',
-        this.formulario.value
-      )
+      .post(`${environment.apiFinancasUrl}/api/v1/movimentacoes/criar`,this.formulario.value)
       .subscribe({
         next: () => {
           this.mensagemSucesso.set(

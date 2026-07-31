@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-criar-usuario',
@@ -65,7 +66,7 @@ export class CriarUsuario {
     };
 
     //Enviando a requisição para o backend
-    this.http.post('http://localhost:8082/api/v1/usuario/criar', json)
+    this.http.post(`${environment.apiAutenticacaoUrl}/api/v1/usuario/criar`,json)
       .subscribe({ //Aguardando o retorno da API
         next: (response: any) => { //Capturando se o retorno for sucesso da API
           this.mensagemSucesso.set(`Parabéns ${response.nomeUsuario}, sua conta foi criada com sucesso!`);

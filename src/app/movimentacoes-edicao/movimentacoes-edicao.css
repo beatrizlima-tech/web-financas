@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+main {
+  max-width: 1100px;
+}
+
+.card {
+  overflow: hidden;
+}
+
+.form-control-lg,
+.form-select-lg,
+.input-group-lg {
+  min-height: 3.5rem;
+}
+
+input[type='number'] {
+  font-variant-numeric: tabular-nums;
+}
+
+.spinner-border {
+  flex-shrink: 0;
+}
+
+@media (max-width: 575.98px) {
+  .card-body {
+    padding: 1.25rem !important;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

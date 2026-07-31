@@ -157,6 +157,26 @@
 
         </div>
 
+        @if (mensagemSucesso()) {
+
+  <div
+    class="alert alert-success alert-dismissible fade show"
+    role="alert">
+
+    <strong>Sucesso!</strong>
+    {{ mensagemSucesso() }}
+
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Fechar"
+      (click)="mensagemSucesso.set('')">
+    </button>
+
+  </div>
+
+}
+
         <!-- Mensagem de erro -->
         @if (mensagemErro()) {
 
@@ -270,11 +290,14 @@
 
                                     <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
 
-                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                        <a
+                                            class="btn btn-outline-primary btn-sm"
+                                            [routerLink]="['/app/categorias-edicao', categoria.id]">
                                             Alterar
-                                        </button>
+                                        </a>
 
-                                        <button type="button" class="btn btn-outline-danger btn-sm">
+                                        <button
+                                            type="button"class="btn btn-outline-danger btn-sm" [disabled]="excluindo()" (click)="solicitarExclusao(categoria)">
                                             Excluir
                                         </button>
 
@@ -337,5 +360,93 @@
         }
 
     </main>
+
+    @if (categoriaParaExcluir(); as categoriaSelecionada) {
+
+  <div class="modal-backdrop fade show"></div>
+
+  <div
+    class="modal fade show d-block"
+    tabindex="-1"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="tituloExclusaoCategoria">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content border-0 shadow">
+
+        <div class="modal-header">
+
+          <h2
+            id="tituloExclusaoCategoria"
+            class="modal-title fs-5">
+            Excluir categoria
+          </h2>
+
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Fechar"
+            [disabled]="excluindo()"
+            (click)="cancelarExclusao()">
+          </button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <p class="mb-2">
+            Tem certeza de que deseja excluir a categoria
+            <strong>{{ categoriaSelecionada.nome }}</strong>?
+          </p>
+
+          <p class="text-secondary small mb-0">
+            Essa ação não poderá ser desfeita. Categorias que
+            possuem movimentações vinculadas não podem ser excluídas.
+          </p>
+
+        </div>
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            [disabled]="excluindo()"
+            (click)="cancelarExclusao()">
+            Cancelar
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-danger"
+            [disabled]="excluindo()"
+            (click)="confirmarExclusao()">
+
+            @if (excluindo()) {
+
+              <span
+                class="spinner-border spinner-border-sm me-2"
+                aria-hidden="true">
+              </span>
+
+              Excluindo...
+
+            } @else {
+
+              Excluir categoria
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+}
 
 </div>
