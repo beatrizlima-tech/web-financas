@@ -22,7 +22,7 @@ export class CategoriasCadastro {
   mensagemErro = signal<string>('');
 
   formulario = new FormGroup({
-    nome : new FormControl('', [Validators.required])
+    nome: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)])
   });
 
   cadastrar() {

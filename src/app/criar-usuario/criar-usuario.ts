@@ -25,7 +25,7 @@ export class CriarUsuario {
 
   //Criando a estrutura do formulário
   formCriarUsuario = new FormGroup({
-    nome: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    nome: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     senha: new FormControl('', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/)]),
     senhaConfirmacao: new FormControl('', [Validators.required]),

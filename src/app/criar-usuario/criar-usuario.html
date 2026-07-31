@@ -50,11 +50,11 @@
                         <div class="mb-3">
                             <label for="nome" class="form-label">Nome do usuário:</label>
                             <input type="text" class="form-control form-control-lg" id="nome" name="nome"
-                                placeholder="Digite seu nome completo" formControlName="nome" />
+                                placeholder="Digite seu nome completo" formControlName="nome" minlength="3" maxlength="100" />
 
                             @if(formCriarUsuario.get('nome')?.touched && formCriarUsuario.get('nome')?.invalid) {
                             <div class="text-danger">
-                                O nome é obrigatório e deve ter pelo menos 8 caracteres.
+                                O nome é obrigatório e deve ter entre 3 e 100 caracteres.
                             </div>
                             }
 

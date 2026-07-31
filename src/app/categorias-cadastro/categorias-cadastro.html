@@ -274,21 +274,21 @@
             </label>
 
             <input
-              type="text"
-              id="nome"
-              formControlName="nome"
-              class="form-control form-control-lg"
-              [class.is-invalid]="
+                type="text"
+                class="form-control form-control-lg"
+                id="nome"
+                name="nome"
+                placeholder="Exemplo: Alimentação"
+                formControlName="nome"
+                minlength="2"
+                maxlength="50"
+                [class.is-invalid]="
                 formulario.controls.nome.invalid &&
-                formulario.controls.nome.touched
-              "
-              [class.is-valid]="
+                formulario.controls.nome.touched"
+                [class.is-valid]="
                 formulario.controls.nome.valid &&
-                formulario.controls.nome.touched
-              "
-              placeholder="Exemplo: Alimentação"
-              maxlength="100"
-              autocomplete="off">
+                formulario.controls.nome.touched"
+                autocomplete="off">
 
             <div class="form-text">
               Digite um nome claro para facilitar a organização das movimentações.
@@ -300,12 +300,18 @@
             ) {
 
               <div class="invalid-feedback">
+              @if (formulario.controls.nome.errors?.['required']) {
 
-                @if (formulario.controls.nome.errors?.['required']) {
+                O nome da categoria é obrigatório.
 
-                  O nome da categoria é obrigatório.
+              } @else if (
+                  formulario.controls.nome.errors?.['minlength'] ||
+                  formulario.controls.nome.errors?.['maxlength']
+                  ) {
 
-                }
+                O nome da categoria deve ter entre 2 e 50 caracteres.
+
+              }
 
               </div>
 
