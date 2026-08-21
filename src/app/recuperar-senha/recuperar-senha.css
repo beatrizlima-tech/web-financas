@@ -1,0 +1,122 @@
+.icone-visual {
+    position: relative;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: #e7f1ff;
+    color: #0d6efd;
+}
+
+.icone-cadeado::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem;
+    left: 50%;
+    width: 1.25rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-radius: 0.25rem;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.icone-cadeado::after {
+    content: '';
+    position: absolute;
+    top: 0.9rem;
+    left: 50%;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 2px solid currentColor;
+    border-bottom: 0;
+    border-radius: 0.65rem 0.65rem 0 0;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+}
+
+.icone-envelope::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.55rem;
+    height: 1.1rem;
+    border: 2px solid currentColor;
+    border-radius: 0.2rem;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+}
+
+.icone-envelope::after {
+    content: '';
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    width: 1rem;
+    height: 1rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translate(-50%, -55%) rotate(45deg);
+    box-sizing: border-box;
+}
+
+.tela-recuperacao {
+    padding: 2rem 1rem;
+    background-color: #f5f7fb;
+}
+
+.card-recuperacao {
+    max-width: 460px;
+    border-radius: 1rem;
+    box-shadow: 0 0.75rem 2rem rgba(27, 44, 72, 0.08);
+}
+
+.descricao-recuperacao {
+    max-width: 24rem;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 1.55;
+}
+
+.campo-email {
+    min-height: 3rem;
+    border-color: #d8dee8;
+    border-radius: 0.625rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campo-email::placeholder {
+    color: #98a2b3;
+    opacity: 1;
+}
+
+.campo-email:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.14);
+}
+
+.botao-recuperacao {
+    min-height: 2.85rem;
+    border-radius: 0.625rem;
+    font-size: 0.98rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botao-recuperacao:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 0.4rem 0.9rem rgba(13, 110, 253, 0.2);
+}
+
+.link-retorno {
+    color: #0b5ed7;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.link-retorno:hover {
+    color: #084298;
+    text-decoration: underline !important;
+    text-underline-offset: 0.2rem;
+}

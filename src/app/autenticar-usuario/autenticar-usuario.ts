@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../core/auth/auth.service';
@@ -9,7 +10,8 @@ import { UsuarioAutenticado } from '../core/auth/auth.models';
   selector: 'app-autenticar-usuario',
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './autenticar-usuario.html',
   styleUrl: './autenticar-usuario.css',

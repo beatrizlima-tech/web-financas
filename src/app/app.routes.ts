@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { AutenticarUsuario } from './autenticar-usuario/autenticar-usuario';
 import { CriarUsuario } from './criar-usuario/criar-usuario';
+import { RecuperarSenha } from './recuperar-senha/recuperar-senha';
 import { Dashboard } from './dashboard/dashboard';
 import { CategoriasCadastro } from './categorias-cadastro/categorias-cadastro';
 import { CategoriasEdicao } from './categorias-edicao/categorias-edicao';
@@ -19,6 +20,10 @@ export const routes: Routes = [
   {
     path: 'pages/criar-usuario',
     component: CriarUsuario
+  },
+  {
+    path: 'pages/recuperar-senha',
+    component: RecuperarSenha
   },
   {
     path: 'app/dashboard',

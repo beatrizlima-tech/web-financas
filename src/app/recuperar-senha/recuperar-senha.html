@@ -1,0 +1,77 @@
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center tela-recuperacao">
+    <div class="card card-recuperacao border-0 w-100">
+        <div class="card-body p-4 p-sm-5">
+
+            <div class="icone-visual icone-cadeado mx-auto mb-3" [hidden]="mensagemSucesso()" aria-hidden="true">
+            </div>
+            <h1 class="h3 fw-bold text-center mb-2" [hidden]="mensagemSucesso()">
+                Recuperar senha
+            </h1>
+
+            <p class="text-muted text-center descricao-recuperacao mb-4" [hidden]="mensagemSucesso()">
+                Informe o e-mail da sua conta para receber o link de redefinição.
+            </p>
+
+            @if (mensagemSucesso()) {
+            <div class="text-center pt-3 pb-1" role="status">
+                <div class="icone-visual icone-envelope mx-auto mb-3" aria-hidden="true">
+                </div>
+
+                <h2 class="h4 fw-bold mb-3">
+                    Verifique seu e-mail
+                </h2>
+
+                <p class="text-muted mb-4">
+                    Se existir uma conta cadastrada com o e-mail informado,
+                    enviaremos um link para redefinir sua senha.
+                </p>
+
+                <a href="/pages/autenticar" class="text-decoration-none">
+                    ← Voltar para o login
+                </a>
+            </div>
+            }
+
+            @if (mensagemErro()) {
+            <div class="alert alert-danger">
+                {{ mensagemErro() }}
+            </div>
+            }
+
+            <form [hidden]="mensagemSucesso()" [formGroup]="formRecuperacao" (ngSubmit)="solicitarRecuperacao()">
+
+                <div class="mb-4">
+                    <label for="email" class="form-label fw-semibold">E-mail</label>
+
+                    <input type="email" id="email" class="form-control form-control-lg campo-email"
+                        placeholder="seuemail@exemplo.com" formControlName="email" [class.is-invalid]="
+                            formRecuperacao.controls.email.touched
+                            && formRecuperacao.controls.email.invalid
+                        " />
+
+                    <div class="invalid-feedback">
+                        Informe um e-mail válido.
+                    </div>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary botao-recuperacao" [disabled]="enviando()">
+
+                        @if (enviando()) {
+                        Enviando...
+                        } @else {
+                        Enviar instruções
+                        }
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="/pages/autenticar" class="link-retorno text-decoration-none">
+                        ← Voltar para o login
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
